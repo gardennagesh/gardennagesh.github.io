@@ -1,196 +1,100 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640">
+    <meta name="description" content="NAGESH  NANJUNDACHRI   garden.nagesh@gmail.com   nagesh_garden@yahoo.com : MY SKILLS IN SIMPLE PROGRAMMES">
 
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
-    <title>myprofile by gardennagesh</title>
+    <title>NAGESH  NANJUNDACHRI   garden.nagesh@gmail.com   nagesh_garden@yahoo.com</title>
   </head>
 
   <body>
-    <a id="forkme_banner" href="https://github.com/gardennagesh">View on GitHub</a>
-    <div class="shell">
 
-      <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>myprofile</h1>
-            <h2>prfile</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-      </header>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/gardennagesh">View on GitHub</a>
 
-      <div id="no-downloads">
-        <span class="inner">
-        </span>
-      </div>
+          <h1 id="project_title">NAGESH  NANJUNDACHRI   garden.nagesh@gmail.com   nagesh_garden@yahoo.com</h1>
+          <h2 id="project_tagline">MY SKILLS IN SIMPLE PROGRAMMES</h2>
 
+        </header>
+    </div>
 
-      <span class="banner-fix"></span>
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>/**</p>
 
+<p>** Author: Nagesh Nanjundachari.</p>
 
-      <section id="main_content">
-        <div>
-<div>
-<div>We are the world!!. </div>
+<p>** Below programme is to demonstrate how u_char array is used to store address of int-data.</p>
 
-<div>I developed  this website just  to  present my skills and experience in a better way. </div>
+<p>** Logic is to split integer address into bytes and store in u_char array. And then derefer u_char array.</p>
 
-<div><br></div>
+<p>** Below, memcpy is used for copying address, which uses 4 bytes of ptr_and_data.</p>
 
-<p></p>
-</div>
-</div>
+<p>** strcpy used for copying  abcde and null, which uses 6 bytes of ptr_and_data.</p>
 
-<div>
-<a href="cexamples.html" title="LBL_C_EXAMPLES" target="_blank"><div>
-<div>CExamples</div>
+<p>**/</p>
+
+<p>#include&lt;stdio.h&gt;</p>
+
+<p>#include&lt;string.h&amp;gt</p>
 
 <p></p>
-</div></a>
-</div>
 
-<div>
-<a href="cassignments.html" title="LBL_C_ASSIGNMENTS" target="_blank"><div>
-<div>CAssignments</div>
+<p>unsigned char ptr_and_data[10];</p>
 
 <p></p>
-</div></a>
-</div>
 
-<div>
-<a href="myresume.html" title="LBL_MYRESUME" target="_blank"><div>
-<div>MyResume</div>
+<p>main () {</p>
+
+<p> int  idata = 99;</p>
 
 <p></p>
-</div></a>
-</div>
 
-<div>
-<div>
-<div>This website, I  developed in  C and PERL for serverside. Perl delegates all backend actions to C programmes. Perl programme converts psuedo-html files to actual-html files.</div>
+<p>     memcpy (ptr_and_data,    ((char *)&amp;idata),   1);</p>
 
-<div><br></div>
+<p>     memcpy (ptr_and_data+1,  ((char *)&amp;idata)+1, 1);</p>
 
-<div><br></div>
+<p>     memcpy (ptr_and_data+2,  ((char *)&amp;idata)+2, 1);</p>
 
-<div><br></div>
+<p>     memcpy (ptr_and_data+3,  ((char *)&amp;idata)+3, 1);</p>
 
-<p></p>
-</div>
-</div>
+<p>     </p>
 
-<div>
-<a href="javaexamples.html" title="LBL_JAVAEXAMPLE" target="_blank"><div>
-<div>JAVAExamples</div>
+<p>     strcpy (ptr_and_data+4, "abcde");</p>
+
+<p>     printf ( "%d\n", *((int *)ptr_and_data) );</p>
+
+<p>     printf ( "%s\n", ptr_and_data+4 );</p>
+
+<p>}</p>
 
 <p></p>
-</div></a>
-</div>
 
-<div>
-<a href="javassignmentys.html" title="LBL_JAVA_ASIGN" target="_blank"><div>
-<div>JAVAAssignments</div>
+<p>/*</p>
 
-<p></p>
-</div></a>
-</div>
+<p> * Exersise: Use char-array as node of linked-list.</p>
 
-<div>
-<a href="linuxos.html" title="LBL_LINUXOS" target="_blank"><div>
-<div>LinuxOS</div>
+<p> * Logic: char array of more than 4bytes is required. 4 bytes for address storing rest of bytes for data storing.</p>
 
-<p></p>
-</div></a>
-</div>
-
-<div>
-<a href="linuxassignments.html" title="LBL_LINUX_ASGN" target="_blank"><div>
-<div>LinuxAssignments</div>
-
-<p></p>
-</div></a>
-</div>
-
-<div>
-<a href="perlexamples.html" title="LBL_PERL_EXM" target="_blank"><div>
-<div>PERLExamples</div>
-
-<p></p>
-</div></a>
-</div>
-
-<div>
-<a href="perlassignments.html" title="LBL_PERL_ASGN" target="_blank"><div>
-<div>PERLAssignments</div>
-
-<p></p>
-</div></a>
-</div>
-
-<div>
-<a href="mywiki.html" title="LBL_MYWIKI" target="_blank"><div>
-<div>MyWiki</div>
-
-<p></p>
-</div></a>
-</div>
-
-<div>
-<a href="http://en.wikipedia.org/wiki/Dennis_Ritchie" title="IMG_RITCH" target="_blank">
-<img name="rollimg1" width="220" height="143" alt="" title="" border="0"></a>
-</div>
-
-<div>
-<a href="http://en.wikipedia.org/wiki/Boeing_747" title="IMG_BOWING" target="_blank">
-<img name="rollimg2" width="260" height="167" alt="" title="" border="0"></a>
-</div>
-
-<div>
-<a href="http://en.wikipedia.org/wiki/Bryan_Adams" title="IMG_BRYAN" target="_blank">
-<img name="rollimg3" width="271" height="186" alt="" title="" border="0"></a>
-</div>
-
-<div>
-<a href="http://en.wikipedia.org/wiki/Mount_Kailash" title="IMG_KAILASH" target="_blank">
-<img name="rollimg4" width="240" height="160" alt="" title="" border="0"></a>
-</div>
-
-<div>
-<a href="http://en.wikipedia.org/wiki/Jupiter" title="IMG_JUPITER" target="_blank">
-<img name="rollimg5" width="260" height="251" alt="" title="" border="0"></a>
-</div>
+<p> */</p>
       </section>
+    </div>
 
-      <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>Projects by <a href="https://github.com/gardennagesh">gardennagesh</a> can be found on <a href="https://github.com/gardennagesh">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
-
     </div>
 
     
+
   </body>
 </html>
