@@ -29,57 +29,6 @@
       <section id="main_content" class="inner">
         <p>/***************************************************</p>
 
-<p>** Programme: Demonstrate how to to store address in char array </p>
-
-<p>** Programmer: Nagesh Nanjundachari.</p>
-
-<p>** Below programme is to demonstrate how u_char array is used to store address of int-data.</p>
-
-<p>** Logic is to split integer address into bytes and store in u_char array. And then derefer u_char array.</p>
-
-<p>** Below, memcpy is used for copying address, which uses 4 bytes of ptr_and_data.</p>
-
-<p>** strcpy used for copying  abcde and null, which uses 6 bytes of ptr_and_data.</p>
-
-<p>***************************************************/</p>
-
-<p>#include&lt;stdio.h&gt;</p>
-
-<p>#include&lt;string.h&gt;</p>
-
-<p>unsigned char ptr_and_data[10];</p>
-
-<p>main () {</p>
-
-<p> int  idata = 99;</p>
-
-<p></p>
-
-<p>     memcpy (ptr_and_data,    ((char *)&amp;idata),   1);</p>
-
-<p>     memcpy (ptr_and_data+1,  ((char *)&amp;idata)+1, 1);</p>
-
-<p>     memcpy (ptr_and_data+2,  ((char *)&amp;idata)+2, 1);</p>
-
-<p>     memcpy (ptr_and_data+3,  ((char *)&amp;idata)+3, 1);</p>
-
-<p>     </p>
-
-<p>     strcpy (ptr_and_data+4, "abcde");</p>
-
-<p>     printf ( "%d\n", *((int *)ptr_and_data) );</p>
-
-<p>     printf ( "%s\n", ptr_and_data+4 );</p>
-
-<p>}</p>
-
-<p></p>
-
-<p>/***************************************************</p>
-
-<p> * So, now we can use char-array as node of linked-list.</p>
-
-<p> * Logic: char array of more than 4bytes is required. 4 bytes for address storing rest of bytes for data storing.</p>
 
 <p>***************************************************/</p>
       </section>
