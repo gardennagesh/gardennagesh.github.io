@@ -2,9 +2,48 @@
 <html>
 <body>
 
-<h1>My First Heading</h1>
+<h1>Array Pointer Demo Programme</h1>
 
-<p>My first paragraph.</p>
+<p>/*******************************************</p>
+
+<p>Programme:  array_ptr.c</p>
+<p>Programmer: Nagesh Nanjundachari   at   garden.nagesh@gmail.com</p>
+<p>Purpose: Demonstrate pointer-to-array-element and  pointer-to-entire-array.</p>
+<p>Usage:  Compile and run this programme in Linux.</p>
+
+
+<p>********************************************/</p>
+
+<p>#include<stdio.h&lt</p>
+
+<p>int priv_element = 88;</p>
+<p>int array[2][5] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };</p>
+<p>int next_element = 99;</p>
+
+<p>main (int argc, char *argv[])</p>
+<p>{</p>
+
+  <p>int *ptr_to_first_element   = &array[0][0];</p>
+  <p>int (*ptr_to_1d_arry)[5]    = &array[0];</p>
+  <p>int (*ptr_to_2d_arry)[2][5] = &array;</p>
+
+
+  <p>printf ("Print first num of first array of 2-Dim array:  %d\n", *ptr_to_first_element);</p>
+  <p>ptr_to_first_element += 5;</p>
+ <p> printf ("Print first num of second array of 2-Dim array: %d\n", *ptr_to_first_element);</p>
+
+
+ <p> printf ("Print first num of first array of 2-Dim array:  %d\n", (*ptr_to_1d_arry)[0]);</p>
+ <p> ptr_to_1d_arry++;</p>
+  <p>printf ("Print first num of second array of 2-Dim array: %d\n", (*ptr_to_1d_arry)[0]);</p>
+
+
+ <p> printf ("Print first num of first array of 2-Dim array:  %d\n", (*ptr_to_2d_arry)[0][0]);</p>
+<p>  ptr_to_2d_arry++;</p>
+ <p> printf ("Now you increased to point end of 2d-array space. So next to it is next_element on data-seg: %d\n", (*ptr_to_2d_arry)[0][0]);</p>
+
+<p>}</p>
+
 
 </body>
 </html>
