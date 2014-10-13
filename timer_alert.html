@@ -1,0 +1,212 @@
+<p>/************************************ 3 Files:   alert_notify.c    alert_demon.c    alert_client.c *******************************************************</p>
+<p> Programmer              : Nagesh Nanjundachari at garden.nagesh@gmail.com </p>
+<p> This programme is just to demonstrates simple alert  or alarm  using shared mem and posix timer api . </p>
+<p> The alert_notify.c will be executed by alert_demon.c upon  alert-request received  by alert_client.c</p>
+<p> alert_client.c  takes user input as hh-mm-ss. And then it sends to alert_demon.c as total-secs. Then alert_demon.c creates new alert_notify.c process.</p>
+<p> USAGE: Copy all  programme files in a directory and Compile in Linux  as: </p>
+<p> [YOUR_WORKDIR]  cc  file_name.c  -lrt  -o  file_name  ,  so that you have alert_demon,  alert_client,  alert_notify</p>
+<p>Then run as  1) ./alert_demon    2) ./alert_client   meeting_abc    00-00-10     2) ./alert_client   meeting_pqr   00-01-00   3) ./alert_client   meeting_xyz    01-00-00 </p>
+<p>**************************************************************************************************************************************************/</p>
+<p></p>
+<p>/********************************** File1:  alert_notify.c *************************************************************************************/</p>
+<p>#include&ltstdio.h&gt</p>
+<p>#include&ltunistd.h&gt</p>
+<p>#include&ltstdlib.h&gt</p>
+<p>#include&ltstring.h&gt</p>
+<p>#include&lttime.h&gt</p>
+<p>#include&ltsignal.h&gt</p>
+<p></p>
+<p>#define MSG_LEN 100</p>
+<p></p>
+<p>int rx_secs;</p>
+<p>int sound_or_gui_played;</p>
+<p>char rx_message[MSG_LEN];</p>
+<p>timer_t timer_id;</p>
+<p></p>
+<p>void tcount_down (void)</p>
+<p>{</p>
+<p></p>
+<p>  struct itimerspec time_detail;</p>
+<p></p>
+<p>  memset (&time_detail, 0, sizeof (struct itimerspec));</p>
+<p>  time_detail.it_value.tv_sec = rx_secs;</p>
+<p>  timer_create (CLOCK_REALTIME, NULL, &timer_id);</p>
+<p>  timer_settime (timer_id, 0, &time_detail, NULL);</p>
+<p></p>
+<p>}</p>
+<p></p>
+<p></p>
+<p>void play_alaram (int sig_num)</p>
+<p>{</p>
+<p>  int i = 10;</p>
+<p>  time_t time_in_sec;</p>
+<p></p>
+<p>  time(&time_in_sec);</p>
+<p>  while (i--)</p>
+<p>    printf ("You have alaram now it is.....%s.....%s\n", rx_message, ctime(&time_in_sec));</p>
+<p>  fflush (stdout);</p>
+<p>  //Nice to play music exec__mpg123();</p>
+<p>  execlp ("/usr/bin/xclock", "xclock", NULL);</p>
+<p>  // below flag is dummy_working. exec overlays this process.</p>
+<p>  // below flag is usefull only fork+exec was done.</p>
+<p>  sound_or_gui_played = 1;</p>
+<p></p>
+<p>}</p>
+<p></p>
+<p>main (int ac, char **av)</p>
+<p>{</p>
+<p>  if (ac != 3)</p>
+<p>    {</p>
+<p>      fprintf (stderr, "less args passed\n");</p>
+<p>      fprintf (stderr, "Usage:   ./alert_notify  message  secs\n");</p>
+<p>      fprintf (stderr, "Example: ./alert_notify  meeting_1  10\n");</p>
+<p>      exit (1);</p>
+<p>    }</p>
+<p>  (void) signal (SIGALRM, play_alaram);</p>
+<p>  strcpy (rx_message, av[1]);</p>
+<p>  rx_secs = atoi (av[2]);</p>
+<p>  tcount_down ();</p>
+<p>  while (!sound_or_gui_played);</p>
+<p>  exit (0);</p>
+<p>}</p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p>/********************************** File2: alert_demon.c *************************************************************************************/</p>
+<p></p>
+<p>#include&ltstdio.h&gt</p>
+<p>#include&ltstdlib.h&gt</p>
+<p>#include&ltstring.h&gt</p>
+<p>#include&ltunistd.h&gt</p>
+<p>#include&ltfcntl.h&gt</p>
+<p>#include&ltsys/stat.h&gt</p>
+<p>#include&lterrno.h&gt</p>
+<p>#include&ltsys/mman.h&gt</p>
+<p>#include&ltsignal.h&gt</p>
+<p></p>
+<p>#define DATA_LEN   100</p>
+<p>#define ABSOLUTE_PATH 500</p>
+<p></p>
+<p>char rx_data[DATA_LEN];</p>
+<p>char rx_secs[DATA_LEN];</p>
+<p>char rx_alname[DATA_LEN];</p>
+<p></p>
+<p>void get_secs_alname (char *rx_data)</p>
+<p>{</p>
+<p>  int i = 0;</p>
+<p>  // Data receive protocal: #seconds#alaramname</p>
+<p>  while (*++rx_data != '#')</p>
+<p>    rx_secs[i++] = *rx_data;</p>
+<p>  strcpy (rx_alname, rx_data + 1);</p>
+<p>}</p>
+<p></p>
+<p>void creat_alarm ()</p>
+<p>{</p>
+<p>  char pwd_exec_path[ABSOLUTE_PATH] = { 0 };</p>
+<p></p>
+<p>  if (!fork ())</p>
+<p>    {</p>
+<p>      getcwd (pwd_exec_path, 500);</p>
+<p>      strcat (pwd_exec_path, "/alert_notify");</p>
+<p>      execl (pwd_exec_path, "alert_notify", rx_alname, rx_secs, NULL);</p>
+<p>    }</p>
+<p>}</p>
+<p></p>
+<p>main (int argc, char *argv[])</p>
+<p>{</p>
+<p></p>
+<p>  int i, j, shm_id;</p>
+<p>  void *shm_space = NULL;</p>
+<p></p>
+<p>  if (!fork ())</p>
+<p>    {</p>
+<p>      // Much more to do for perfect demon. Signal protection, chroot, file-mask.</p>
+<p>      setsid ();</p>
+<p>      signal (SIGTERM, SIG_IGN);</p>
+<p>      shm_id = shm_unlink ("/SHM_NNNN");</p>
+<p>      shm_id = shm_open ("/SHM_NNNN", O_CREAT | O_RDWR, 0777);</p>
+<p>      if (shm_id < 0)</p>
+<p>        {</p>
+<p>          perror ("shm_open");</p>
+<p>          exit (1);</p>
+<p>        }</p>
+<p>      ftruncate (shm_id, DATA_LEN);</p>
+<p>      shm_space = mmap (NULL, sizeof (DATA_LEN), PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0);</p>
+<p>      while (1)</p>
+<p>        {</p>
+<p>          //Semaphore protection is required here. But for my lazy  example not required.</p>
+<p>          while ((*(char *) shm_space) != '#');</p>
+<p>          strcpy (rx_data, (char *) shm_space);</p>
+<p>          get_secs_alname (rx_data);</p>
+<p>          creat_alarm ();</p>
+<p>          rx_data[0] = 0;</p>
+<p>          *(char *) shm_space = 0;</p>
+<p>        }</p>
+<p>    }</p>
+<p>}</p>
+<p></p>
+<p></p>
+<p></p>
+<p>/********************************** File3: alert_client.c *************************************************************************************/</p>
+<p></p>
+<p>#include&ltstdio.h&gt</p>
+<p>#include&ltstdlib.h&gt</p>
+<p>#include&ltstring.h&gt</p>
+<p>#include&ltunistd.h&gt</p>
+<p>#include&ltfcntl.h&gt</p>
+<p>#include&ltsys/stat.h&gt</p>
+<p>#include&lterrno.h&gt</p>
+<p>#include&ltsys/mman.h&gt</p>
+<p></p>
+<p>#define DATA_LEN   100</p>
+<p></p>
+<p>char tx_data[DATA_LEN];</p>
+<p></p>
+<p>long make_secs (char *alaram_input)</p>
+<p>{</p>
+<p></p>
+<p>  int hours = 0, minutes = 0, seconds = 0;</p>
+<p></p>
+<p>  hours = atoi (strtok (alaram_input, "-"));</p>
+<p>  minutes = atoi (strtok (NULL, "-"));</p>
+<p>  seconds = atoi (strtok (NULL, "-"));</p>
+<p></p>
+<p>  return (hours * 60 * 60) + (minutes * 60) + seconds;</p>
+<p></p>
+<p>}</p>
+<p></p>
+<p>main (int argc, char *argv[])</p>
+<p>{</p>
+<p></p>
+<p>  int shm_id, total_secs;</p>
+<p>  void *shm_space = NULL;</p>
+<p></p>
+<p>  if (argc != 3)</p>
+<p>    {</p>
+<p>      fprintf (stderr, "\nI did not to code to check format of the HH-MM-SS\n\n");</p>
+<p>      fprintf (stderr, "Pls Usage: ./alert_client  alaram_name  HH-MM-SS\n\n");</p>
+<p>      fprintf (stderr, "Example 1: ./alert_client  coffe_brk    00-00-12\n\n");</p>
+<p>      fprintf (stderr, "Example 2: ./alert_client  meeting_2    00-01-05\n\n");</p>
+<p>      fprintf (stderr, "Example 3: ./alert_client  food_brek    01-05-00\n\n");</p>
+<p>      exit (1);</p>
+<p>    }</p>
+<p></p>
+<p>  shm_id = shm_open ("/SHM_NNNN", O_RDWR, 00777);</p>
+<p>  if (shm_id < 0)</p>
+<p>    {</p>
+<p>      perror ("shm_open");</p>
+<p>      exit (1);</p>
+<p>    }</p>
+<p></p>
+<p>  ftruncate (shm_id, DATA_LEN);</p>
+<p>  shm_space = mmap (NULL, sizeof (DATA_LEN), PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0);</p>
+<p>  total_secs = make_secs (argv[2]);</p>
+<p>  tx_data[0] = '#';</p>
+<p>  // Data send protocal: #seconds#alaramname</p>
+<p>  sprintf (tx_data + 1, "%d%c%s", total_secs, '#', argv[1]);</p>
+<p>  fprintf (stdout, "\n\nYou will be notified by xclok or by %s after %d seconds FROM NOW\n\n", argv[1], total_secs);</p>
+<p>  //Semaphore protection is required here.</p>
+<p>  strcpy ((char *) shm_space, tx_data);</p>
+<p>}</p>
