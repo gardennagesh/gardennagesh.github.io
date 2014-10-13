@@ -1,0 +1,52 @@
+<p>/* This is FILE-1</p>
+<p> * Module : violate.c</p>
+<p> * Programmer       : Nagesh Nanjundachari  at  garden.nagesh@gmail.com</p>
+<p> * Purpose: Voilate static keyword purpose.</p>
+<p> * Static variable, functions are bound to file scope. </p>
+<p> * Eventhough such varaible or functions can be accessed out side the file of residence.</p>
+<p> * USAGE:  cc  violate.c  staticdata.c</p>
+<p> * USAGE:  [YOURWORKDIR] ./a.out</p>
+<p> */</p>
+<p></p>
+<p></p>
+<p></p>
+<p>#include&ltstdio.h&gt</p>
+<p></p>
+<p>void  * func_ret(int argc);</p>
+<p></p>
+<p>main (int argc, char * argv[]) {</p>
+<p>void (*pf)(char *);</p>
+<p></p>
+<p>        if (argc%2) {</p>
+<p>                pf = (void (*)(char *))func_ret(argc);</p>
+<p>                pf("Hello World");</p>
+<p>        }</p>
+<p></p>
+<p>        else {</p>
+<p>                printf ("%d\n", *(int *)func_ret(argc));</p>
+<p>        }</p>
+<p>}</p>
+<p></p>
+<p></p>
+<p></p>
+<p>/* This is FILE-2</p>
+<p> * Module : staticdata.c</p>
+<p> * Static variable stat_val, function  stat_func are bound to file scope within staticdata.c.</p>
+<p> * Eventhough these varaible or function can be accessed out side from violate.c.</p>
+<p> */</p>
+<p></p>
+<p>#include<stdio.h></p>
+<p></p>
+<p>void  * func_ret (int);</p>
+<p>static void stat_func (char * );</p>
+<p>static int stat_val=99;</p>
+<p></p>
+<p>static void stat_func (char * str) {</p>
+<p>        printf (str);</p>
+<p>}</p>
+<p></p>
+<p>void  * func_ret(int argc) {</p>
+<p>        if (argc%2) return stat_func;</p>
+<p>        else return &stat_val;</p>
+<p>}</p>
+
