@@ -1,0 +1,93 @@
+<p>/*</p>
+<p> * Programme : alphabet.c</p>
+<p> * Programmer: Nagesh Nanjundachari  at  garden.nagesh@gmail.com</p>
+<p> * This programme is mainly to demonstrate TWO-DIMENSION-ARRAY-OF-POINTER.</p>
+<p> * This programe filters the text lines  into alphabetical order. But, the first char of the line SHOULD be Alphabet. </p>
+<p> * Any temp.txt file with MAX_LINES <= 500  and  MAX_LINE_LENGTH <= 200  can be readble  by this programme. </p>
+<p> *</p>
+<p> * USAGE: Copy   1)temp.txt  and  2)alphabet.c    in same directory.</p>
+<p>   USAGE: Compile this programme in Linux and run as: [YOURWORKDIR] ./a.out temp.txt</p>
+<p>*/</p>
+<p></p>
+<p></p>
+<p></p>
+<p>/**************File1: temp.txt  **************/</p>
+<p></p>
+<p>/*</p>
+<p></p>
+<p>cccccccooooooooo</p>
+<p>dddddddddddddddd</p>
+<p>ssssssssssssssss</p>
+<p>hhhhhhhhhhhhhhhh</p>
+<p>kkkkkkkkkkkkkkkk</p>
+<p>bbbbbbbbbbbbbbbb</p>
+<p>aaaaaaaaaaaaaaaa</p>
+<p>EEEEEEEEEEEEEEEE</p>
+<p>bbbbbxxxxxxxxxxx</p>
+<p>aaaaayyyyyyyyyyy</p>
+<p>hhhhhhmmmmmmmmmm</p>
+<p>ssssssnnnnnnnnnn</p>
+<p>kkkkkkvvvvvvvvvv</p>
+<p>AAAAAAAAAAAAAAAA</p>
+<p>BBBBBBBBBBBBBBBB</p>
+<p>CCCCCCCCCCCCCCCC</p>
+<p>DDDDDDDDDDDDDDDD</p>
+<p></p>
+<p>*/</p>
+<p></p>
+<p></p>
+<p>/**************File2: alphabet.c  **************/</p>
+<p></p>
+<p></p>
+<p></p>
+<p>#include&ltstdio.h&gt</p>
+<p>#include&ltunistd.h&gt</p>
+<p>#include&ltstdlib.h&gt</p>
+<p>#include&ltstring.h&gt</p>
+<p></p>
+<p></p>
+<p>#define  MAX_ALPHABET     26</p>
+<p>#define  MAX_LINES        500</p>
+<p>#define  MAX_LINE_LENGTH  200</p>
+<p>#define  ASCII_SA         97</p>
+<p>#define  ASCII_BA         65</p>
+<p></p>
+<p>char * palphbet [MAX_ALPHABET][MAX_LINES];</p>
+<p>int    group_count [MAX_ALPHABET];</p>
+<p>char   lines [MAX_LINES][MAX_LINE_LENGTH];</p>
+<p></p>
+<p>main (int argc, char * argv[]) {</p>
+<p>int i=0, j=0;</p>
+<p>FILE *fp;</p>
+<p>char first_char;</p>
+<p></p>
+<p>	if (argc !=2) {</p>
+<p>	fprintf (stderr, "\nUsage: ./a.out temp.txt\n");</p>
+<p>	exit (1);</p>
+<p>	}</p>
+<p></p>
+<p>        memset (palphbet, 0, MAX_ALPHABET*MAX_LINES*4);</p>
+<p></p>
+<p>        fp = fopen("temp.txt", "r");</p>
+<p>        while ( fgets(lines[i], MAX_LINE_LENGTH, fp) ) {</p>
+<p>                if (isalpha(lines[i][0])) i++;</p>
+<p>                if (i >= MAX_LINES) break;</p>
+<p>        }</p>
+<p>        fclose(fp);</p>
+<p></p>
+<p>        i-=2;</p>
+<p>        while (i >= 0) {</p>
+<p>                first_char = tolower (lines[i][0]);</p>
+<p>                palphbet[ first_char - ASCII_SA ][ group_count[ first_char - ASCII_SA ]++ ] = lines[i];</p>
+<p>                i--;</p>
+<p>        }</p>
+<p></p>
+<p>        for (i=0; i<MAX_ALPHABET; i++) {</p>
+<p>                for (j=0; j<group_count[i]; j++) {</p>
+<p>                        if (!j)  printf ("\nNUMBER of LINES STARTING WITH CHARS \" %c  OR  %c\" = %d\n", ASCII_BA+i, ASCII_SA+i, group_count[i]);</p>
+<p>                        printf ("%s", palphbet[i][j]);</p>
+<p>                }</p>
+<p>        }</p>
+<p>}</p>
+<p></p>
+
