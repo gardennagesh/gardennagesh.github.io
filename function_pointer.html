@@ -1,0 +1,57 @@
+<p>/*</p>
+<p> * Programme : pfarray.c</p>
+<p> * Programmer: Nagesh Nanjundachari  at  garden.nagesh@gmail.com</p>
+<p> * Below lines of code to demonstrate use of pointers with function. Pass ODD or EVEN number of cmd line arguments.</p>
+<p> * func_abc and func_xyz are functions which accept "pointer to char" and return "address of any data type".</p>
+<p> * func_pqr  is  the function returns address of functions which are having similar prototype as func_abc.</p>
+<p> * pf_array  is  array of  pointers to functions of prototype similar to func_abc.</p>
+<p> * TPF is a pointer-to-function user-defined data-type.</p>
+<p> *</p>
+<p> * USAGE: Compile this programme in Linux and run as: [YOURWORKDIR] ./a.out  OR  ./a.out hi</p>
+<p> */</p>
+<p></p>
+<p></p>
+<p>#include&ltstdio.h&gt</p>
+<p>#include&ltstring.h&gt</p>
+<p>#include&ltmalloc.h&gt</p>
+<p></p>
+<p>void * func_abc (char *);</p>
+<p>void * func_xyz (char *);</p>
+<p>void * (*func_pqr (int))(char *);</p>
+<p>void * (*pf_array[3])(char *) = { func_abc, func_xyz, NULL };</p>
+<p>typedef void* (*TPF)(char *);</p>
+<p></p>
+<p></p>
+<p>/* This is abc function calls printf */</p>
+<p>void * func_abc (char * ptr_str) {</p>
+<p></p>
+<p>        printf ("%s  Inside func_ABC", ptr_str);</p>
+<p>}</p>
+<p></p>
+<p></p>
+<p>/* This is xyz function calls printf */</p>
+<p>void * func_xyz (char * ptr_str) {</p>
+<p></p>
+<p>        printf ("%s  Inside func_XYZ", ptr_str);</p>
+<p>}</p>
+<p></p>
+<p></p>
+<p>/* This function returns pointer to function  based upon number(ODD or EVEN) of cmd-line-args passed.*/</p>
+<p>void * (*func_pqr (int argc))(char *) {</p>
+<p>        </p>
+<p>       return  pf_array[argc%2];</p>
+<p></p>
+<p>}</p>
+<p></p>
+<p></p>
+<p>/* This MAIN function  which calls func_pqr with number of cmd-line-args */</p>
+<p>main (int argc, char * av[])  {</p>
+<p>        </p>
+<p>TPF temp_pf;</p>
+<p></p>
+<p>        temp_pf = func_pqr(argc);</p>
+<p>        </p>
+<p>        temp_pf ("I am Entering");</p>
+<p>}</p>
+<p></p>
+
