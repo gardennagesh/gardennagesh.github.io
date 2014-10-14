@@ -38,57 +38,58 @@
 <p></p>
 <p></p>
 <p>/**************File2: alphabet.c  **************/</p>
-<p></p>
-<p></p>
-<p></p>
-<p>#include&ltstdio.h&gt</p>
-<p>#include&ltunistd.h&gt</p>
-<p>#include&ltstdlib.h&gt</p>
-<p>#include&ltstring.h&gt</p>
-<p></p>
-<p></p>
-<p>#define  MAX_ALPHABET     26</p>
-<p>#define  MAX_LINES        500</p>
-<p>#define  MAX_LINE_LENGTH  200</p>
-<p>#define  ASCII_SA         97</p>
-<p>#define  ASCII_BA         65</p>
-<p></p>
-<p>char * palphbet [MAX_ALPHABET][MAX_LINES];</p>
-<p>int    group_count [MAX_ALPHABET];</p>
-<p>char   lines [MAX_LINES][MAX_LINE_LENGTH];</p>
-<p></p>
-<p>main (int argc, char * argv[]) {</p>
-<p>int i=0, j=0;</p>
-<p>FILE *fp;</p>
-<p>char first_char;</p>
-<p></p>
-<p>	if (argc !=2) {</p>
-<p>	fprintf (stderr, "\nUsage: ./a.out temp.txt\n");</p>
-<p>	exit (1);</p>
-<p>	}</p>
-<p></p>
-<p>        memset (palphbet, 0, MAX_ALPHABET*MAX_LINES*4);</p>
-<p></p>
-<p>        fp = fopen("temp.txt", "r");</p>
-<p>        while ( fgets(lines[i], MAX_LINE_LENGTH, fp) ) {</p>
-<p>                if (isalpha(lines[i][0])) i++;</p>
-<p>                if (i >= MAX_LINES) break;</p>
-<p>        }</p>
-<p>        fclose(fp);</p>
-<p></p>
-<p>        i-=2;</p>
-<p>        while (i >= 0) {</p>
-<p>                first_char = tolower (lines[i][0]);</p>
-<p>                palphbet[ first_char - ASCII_SA ][ group_count[ first_char - ASCII_SA ]++ ] = lines[i];</p>
-<p>                i--;</p>
-<p>        }</p>
-<p></p>
-<p>        for (i=0; i<MAX_ALPHABET; i++) {</p>
-<p>                for (j=0; j<group_count[i]; j++) {</p>
-<p>                        if (!j)  printf ("\nNUMBER of LINES STARTING WITH CHARS \" %c  OR  %c\" = %d\n", ASCII_BA+i, ASCII_SA+i, group_count[i]);</p>
-<p>                        printf ("%s", palphbet[i][j]);</p>
-<p>                }</p>
-<p>        }</p>
-<p>}</p>
-<p></p>
+<p>
+
+#include&ltstdio.h&gt</br>
+#include&ltunistd.h&gt</br>
+#include&ltstdlib.h&gt</br>
+#include&ltstring.h&gt</br>
+</br>
+</br>
+#define  MAX_ALPHABET     26</br>
+#define  MAX_LINES        500</br>
+#define  MAX_LINE_LENGTH  200</br>
+#define  ASCII_SA         97</br>
+#define  ASCII_BA         65</br>
+</br>
+char * palphbet [MAX_ALPHABET][MAX_LINES];</br>
+int    group_count [MAX_ALPHABET];</br>
+char   lines [MAX_LINES][MAX_LINE_LENGTH];</br>
+</br>
+main () {</br>
+int i=0, j=0;</br>
+FILE *fp;</br>
+char first_char;</br>
+</br>
+        memset (palphbet, 0, MAX_ALPHABET*MAX_LINES*4);</br>
+</br>
+        fp = fopen("temp.txt", "r");</br>
+        if (fp == NULL ) {</br>
+                fprintf (stderr, "\ntemp.txt file not found\n");</br>
+                exit (1);</br>
+        }</br>
+        while ( fgets(lines[i], MAX_LINE_LENGTH, fp) ) {</br>
+                if (isalpha(lines[i][0])) i++;  </br>
+                if (i &gt= MAX_LINES) break;</br>
+        }</br>
+        fclose(fp);</br>
+</br>
+        i-=2;</br>
+        while (i &gt= 0) {</br>
+                first_char = tolower (lines[i][0]);</br>
+                palphbet[first_char - ASCII_SA][group_count[first_char - ASCII_SA]++] = lines[i];</br>
+                i--;</br>
+        }</br>
+</br>
+        for (i=0; i&ltMAX_ALPHABET; i++) {</br>
+                for (j=0; j&ltgroup_count[i]; j++) {</br>
+                        if (!j)  printf ("\nNUMBER of LINES STARTING WITH CHARS \" %c  OR  %c\" = %d\n", ASCII_BA+i, ASCII_SA+i, group_count[i]);</br>
+                        printf ("%s", palphbet[i][j]);</br>
+                }</br>
+        }</br>
+}</br>
+
+
+
+</p>
 
