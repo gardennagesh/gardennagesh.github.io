@@ -46,10 +46,10 @@
 <p>  while (i--)</p>
 <p>    printf ("You have alaram now it is.....%s.....%s\n", rx_message, ctime(&time_in_sec));</p>
 <p>  fflush (stdout);</p>
-<p>  //Nice to play music exec__mpg123();</p>
+<p>  /* Nice to play music exec__mpg123(); */</p>
 <p>  execlp ("/usr/bin/xclock", "xclock", NULL);</p>
-<p>  // below flag is dummy_working. exec overlays this process.</p>
-<p>  // below flag is usefull only fork+exec was done.</p>
+<p>  /* below flag is dummy_working. exec overlays this process. */</p>
+<p>  /* below flag is usefull only fork+exec was done. */</p>
 <p>  sound_or_gui_played = 1;</p>
 <p></p>
 <p>}</p>
@@ -97,7 +97,7 @@
 <p>void get_secs_alname (char *rx_data)</p>
 <p>{</p>
 <p>  int i = 0;</p>
-<p>  // Data receive protocal: #seconds#alaramname</p>
+<p>  /* Data receive protocal: #seconds#alaramname */</p>
 <p>  while (*++rx_data != '#')</p>
 <p>    rx_secs[i++] = *rx_data;</p>
 <p>  strcpy (rx_alname, rx_data + 1);</p>
@@ -123,7 +123,7 @@
 <p></p>
 <p>  if (!fork ())</p>
 <p>    {</p>
-<p>      // Much more to do for perfect demon. Signal protection, chroot, file-mask.</p>
+<p>      /* Much more to do for perfect demon. Signal protection, chroot, file-mask. */</p>
 <p>      setsid ();</p>
 <p>      signal (SIGTERM, SIG_IGN);</p>
 <p>      shm_id = shm_unlink ("/SHM_NNNN");</p>
@@ -137,7 +137,7 @@
 <p>      shm_space = mmap (NULL, sizeof (DATA_LEN), PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0);</p>
 <p>      while (1)</p>
 <p>        {</p>
-<p>          //Semaphore protection is required here. But for my lazy  example not required.</p>
+<p>          /* Semaphore protection is required here. But for my sleepy  example not required. */</p>
 <p>          while ((*(char *) shm_space) != '#');</p>
 <p>          strcpy (rx_data, (char *) shm_space);</p>
 <p>          get_secs_alname (rx_data);</p>
@@ -205,9 +205,9 @@
 <p>  shm_space = mmap (NULL, sizeof (DATA_LEN), PROT_READ | PROT_WRITE, MAP_SHARED, shm_id, 0);</p>
 <p>  total_secs = make_secs (argv[2]);</p>
 <p>  tx_data[0] = '#';</p>
-<p>  // Data send protocal: #seconds#alaramname</p>
+<p>  /* Data send protocal: #seconds#alaramname */</p>
 <p>  sprintf (tx_data + 1, "%d%c%s", total_secs, '#', argv[1]);</p>
 <p>  fprintf (stdout, "\n\nYou will be notified by xclok or by %s after %d seconds FROM NOW\n\n", argv[1], total_secs);</p>
-<p>  //Semaphore protection is required here.</p>
+<p>  /* Semaphore protection is required here. */</p>
 <p>  strcpy ((char *) shm_space, tx_data);</p>
 <p>}</p>
