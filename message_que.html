@@ -10,7 +10,7 @@
 <p>        cc random.c -lrt -o random ; ./random</p>
 <p>*********************************************************************************************************************/</p>
 <p></p>
-<p>//EXECUTE THIS PROGRAMME BEFORE RUNNING RANDOM.C</p>
+<p>/* EXECUTE THIS PROGRAMME BEFORE RUNNING RANDOM.C */</p>
 <p>#include&ltstdio.h&gt</p>
 <p>#include&ltstdlib.h&gt</p>
 <p>#include&ltstring.h&gt</p>
@@ -47,31 +47,31 @@
 <p></p>
 <p>  while (1)</p>
 <p>  {</p>
-<p>        // receive message from random.c process</p>
+<p>        /* receive message from random.c process */</p>
 <p>      if (mq_receive (mq_id, rx_data, BUFF_LEN, &pid_as_priority) < 0)</p>
 <p>        perror ("mq_receive");</p>
 <p>      else</p>
 <p>        {</p>
-<p>          // print data exchange  on stdout.</p>
+<p>          /* print data exchange  on stdout. */</p>
 <p>          fprintf (stdout, "MSG RECEIVED FROM RANDOM.C PROC: %s\n", rx_data);</p>
 <p></p>
-<p>          //Make acknowledegment number based on received msg.</p>
+<p>          /* Make acknowledegment number based on received msg. */</p>
 <p>          if (strstr (rx_data, "ODDN") != NULL)</p>
 <p>            strcpy (tx_data, "1111");</p>
 <p>          if (strstr (rx_data, "EVEN") != NULL)</p>
 <p>            strcpy (tx_data, "2222");</p>
 <p></p>
-<p>          // Put acknowledgement-number on MQ so that random.c process reads.</p>
+<p>          /* Put acknowledgement-number on MQ so that random.c process reads. */</p>
 <p>          mq_send (mq_id, tx_data, sizeof (tx_data) - 1, 0);</p>
 <p></p>
-<p>          // Make sure that the message is on MQ and then notify random process.</p>
+<p>          /* Make sure that the message is on MQ and then notify random process. */</p>
 <p>          while (!present_attr.mq_curmsgs)</p>
 <p>            mq_getattr (mq_id, &present_attr);</p>
 <p></p>
-<p>          // Notify that Acknowledge is sent to random proc.</p>
+<p>          /* Notify that Acknowledge is sent to random proc. */</p>
 <p>          kill (pid_as_priority, SIGUSR1);</p>
 <p></p>
-<p>          // wait for zero message on MQ so that read next new message sent by random proc.</p>
+<p>          /* wait for zero message on MQ so that read next new message sent by random proc. */</p>
 <p>          while (present_attr.mq_curmsgs)</p>
 <p>            mq_getattr (mq_id, &present_attr);</p>
 <p>        }</p>
@@ -92,7 +92,7 @@
 <p>        cc random.c -lrt -o random ; ./random</p>
 <p>*********************************************************************************************************************/</p>
 <p></p>
-<p>//EXECUTE THIS PROGRAMME AFTER RUNNING NOTIFY.C</p>
+<p>/* EXECUTE THIS PROGRAMME AFTER RUNNING NOTIFY.C */</p>
 <p>#include&ltstdio.h&gt</p>
 <p>#include&ltstdlib.h&gt</p>
 <p>#include&ltstring.h&gt</p>
@@ -136,7 +136,7 @@
 <p>      perror ("mq_open");</p>
 <p>      exit (1);</p>
 <p>    }</p>
-<p>  // Register for message arrival notification.</p>
+<p>  /* Register for message arrival notification. */</p>
 <p>  mq_notif.sa_handler = &msg_arrived;</p>
 <p>  sigaction (SIGUSR1, &mq_notif, NULL);</p>
 <p></p>
@@ -144,16 +144,16 @@
 <p></p>
 <p>  while (1)</p>
 <p>    {</p>
-<p>      // random event generator. and make message string.</p>
+<p>      /* random event generator. and make message string. */</p>
 <p>      if (random () % 2)</p>
 <p>        strcpy (tx_data, "ODDN");</p>
 <p>      else</p>
 <p>        strcpy (tx_data, "EVEN");</p>
 <p></p>
-<p>      // Send message 2 sec delay.</p>
+<p>      /* Send message 2 sec delay. */</p>
 <p>      sleep (2);</p>
 <p></p>
-<p>      // Wait for no messages on MQ before putting message on MQ.</p>
+<p>      /* Wait for no messages on MQ before putting message on MQ. */</p>
 <p>      while (present_attr.mq_curmsgs) mq_getattr (mq_id, &present_attr);</p>
 <p>      if (mq_send (mq_id, tx_data, sizeof (tx_data) - 1, pid_as_priority) < 0)</p>
 <p>        perror ("mq_send");</p>
