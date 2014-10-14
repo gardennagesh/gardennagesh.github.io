@@ -18,6 +18,7 @@
 <p>main (int argc, char * argv[]) {</p>
 <p>void (*pf)(char *);</p>
 <p></p>
+<p>        printf ("\n\nPass ODD or EVEN NUMBER OF CMDLINE ARGS\n\n");</p>
 <p>        if (argc%2) {</p>
 <p>                pf = (void (*)(char *))func_ret(argc);</p>
 <p>                pf("Hello World");</p>
