@@ -7,10 +7,10 @@
 <p> Execute this  notify.c  programme first.</p>
 <p> This process receives message(ODDN or EVEN) sent by random.c  and then it acknowledges number(11111 or 22222).  </p>
 <p> USAGE: cc notify.c -lrt -o notify ; ./notify    in  first virtual-terminal</p>
-<p>        cc random.c -lrt -o random ; ./random    in second virtual-terminal </p>
-<p>*********************************************************************************************************************/</p>
+<p>         </p>
+<p>****************************NOTIFY.c****************************************************************************/</p>
 <p></p>
-<p>/* EXECUTE THIS PROGRAMME BEFORE RUNNING RANDOM.C in a new  Terminal session */</p>
+<p>/* EXECUTE THIS PROGRAMME notify.c BEFORE RUNNING random.c in a new  Terminal session */</p>
 <p>#include&ltstdio.h&gt</p>
 <p>#include&ltstdlib.h&gt</p>
 <p>#include&ltstring.h&gt</p>
@@ -88,11 +88,11 @@
 <p> This programme is just to demonstrate how POSIX-MQ with ONE-message exchanged without SemaPhores.</p>
 <p> Execute this  notify.c  programme first.</p>
 <p> This process receives message(ODDN or EVEN) sent by random.c  and then it acknowledges number(11111 or 22222).  </p>
-<p> USAGE: cc notify.c -lrt -o notify ; ./notify   in new terminal session </p>
-<p>        cc random.c -lrt -o random ; ./random   in another new terminal session</p>
-<p>*********************************************************************************************************************/</p>
+<p> USAGE: cc random.c -lrt -o random ; ./random   in another new terminal session </p>
+<p>        </p>
+<p>************************RANDOM.c in another new  Terminal session*************************************************************/</p>
 <p></p>
-<p>/* EXECUTE THIS PROGRAMME AFTER RUNNING NOTIFY.C */</p>
+<p>/* EXECUTE THIS random.c PROGRAMME AFTER RUNNING notify.c */</p>
 <p>#include&ltstdio.h&gt</p>
 <p>#include&ltstdlib.h&gt</p>
 <p>#include&ltstring.h&gt</p>
