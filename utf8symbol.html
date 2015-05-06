@@ -4,11 +4,11 @@
 <p>/* Please  make sure your ENVIORNMENT has UTF-8 enabled */ </p>
 <p>/* Compile: gcc -Wall utf8count.c  */</p>
 <p>/* Usage: ./a.out */</p>
-<p>/* Enter strings with ASCII chars like EURO, POUND, CHESS symbols */</p>
+<p>/* Enter strings with ASCII chars like EURO, POUND, CHESS symbols from stdin*/</p>
 <p>/* Enter Q to quit */</p>
 
-<p>#include<stdio.h></p>
-<p>#include<string.h></p>
+<p>#include&ltstdio.h&gt</p>
+<p>#include&ltstring.h&gt</p>
 
 <p>/* UTF-8   : BYTE_BITS*/</p>
 <p>/* B0_BYTE : 0XXXXXXX */</p>
@@ -113,7 +113,7 @@
 <p>	memset (store, 0, 6);</p>
 <p>	memcpy (store, pbyte, bytes);</p>
 <p>	i = 0;</p>
-<p>	while (i<bytes) printf ("%c", store[i++]);</p>
+<p>	while (i&ltbytes) printf ("%c", store[i++]);</p>
 <p>	printf ("%c", ' ');</p>
 <p>	fflush (stdout);</p>
 <p>}</p>
