@@ -1,120 +1,120 @@
-<p>
-/* Developer: Nagesh Nanjundachari */
-/* Email: garden.nagesh@gmail.com  */
-/* Please  make sure your ENVIORNMENT has UTF-8 enabled */ 
-/* Compile: gcc -Wall utf8count.c  */
-/* Usage: ./a.out */
-/* Enter strings with ASCII chars like EURO, POUND, CHESS symbols */
-/* Enter Q to quit */
+<p></p>
+<p>/* Developer: Nagesh Nanjundachari */</p>
+<p>/* Email: garden.nagesh@gmail.com  */</p>
+<p>/* Please  make sure your ENVIORNMENT has UTF-8 enabled */ </p>
+<p>/* Compile: gcc -Wall utf8count.c  */</p>
+<p>/* Usage: ./a.out */</p>
+<p>/* Enter strings with ASCII chars like EURO, POUND, CHESS symbols */</p>
+<p>/* Enter Q to quit */</p>
 
-#include<stdio.h>
-#include<string.h>
+<p>#include<stdio.h></p>
+<p>#include<string.h></p>
 
-/* UTF-8   : BYTE_BITS*/
-/* B0_BYTE : 0XXXXXXX */
-/* B1_BYTE : 10XXXXXX */
-/* B2_BYTE : 110XXXXX */
-/* B3_BYTE : 1110XXXX */
-/* B4_BYTE : 11110XXX */
-/* B5_BYTE : 111110XX */
-/* B6_BYTE : 1111110X */
+<p>/* UTF-8   : BYTE_BITS*/</p>
+<p>/* B0_BYTE : 0XXXXXXX */</p>
+<p>/* B1_BYTE : 10XXXXXX */</p>
+<p>/* B2_BYTE : 110XXXXX */</p>
+<p>/* B3_BYTE : 1110XXXX */</p>
+<p>/* B4_BYTE : 11110XXX */</p>
+<p>/* B5_BYTE : 111110XX */</p>
+<p>/* B6_BYTE : 1111110X */</p>
 
-#define B0_BYTE 0x00
-#define B1_BYTE 0x80
-#define B2_BYTE 0xC0
-#define B3_BYTE 0xE0
-#define B4_BYTE 0xF0
-#define B5_BYTE 0xF8
-#define B6_BYTE 0xFC
-#define B7_BYTE 0xFE
+<p>#define B0_BYTE 0x00</p>
+<p>#define B1_BYTE 0x80</p>
+<p>#define B2_BYTE 0xC0</p>
+<p>#define B3_BYTE 0xE0</p>
+<p>#define B4_BYTE 0xF0</p>
+<p>#define B5_BYTE 0xF8</p>
+<p>#define B6_BYTE 0xFC</p>
+<p>#define B7_BYTE 0xFE</p>
+<p></p>
+<p></p>
+<p>/* Please tune this as per number of lines input */</p>
+<p>#define MAX_UTF8_STR 10</p>
+
+<p>/* 600 is used because 6byteX100chars */</p>
+<p>#define MAX_UTF8_CHR 1200</p>
+
+<p></p>
+
+<p>void func_find_utf8 (char *ptr_to_str); </p>
+<p>void print_non_ascii (int bytes, char *pbyte);</p>
+
+<p>char strbuf[MAX_UTF8_STR][MAX_UTF8_CHR];</p>
+
+<p>int main (int ac, char * av[]) {</p>
+<p>int i=0; </p>
+<p>char no_newln_str[MAX_UTF8_CHR];</p>
 
 
-/* Please tune this as per number of lines input */
-#define MAX_UTF8_STR 10
+<p>	i = 0;</p>
+<p>	printf ("\n\nYou can enter utf-8 string or Q/q to QUIT\n\n");</p>
+<p>	while (i < MAX_UTF8_STR) {</p>
+<p>		fgets (strbuf[i], MAX_UTF8_CHR, stdin);</p>
+<p>		if (!strlen(strbuf[i])) break;</p>
+<p>		if ((strbuf[i][0] == 'Q') || (strbuf[i][0] == 'q')) break;</p>
+<p>		strcpy (no_newln_str, strbuf[i]);</p>
+<p>		no_newln_str[strlen(no_newln_str)-1] = 0;</p>
+<p>		func_find_utf8 (no_newln_str);                                                                     </p>
+<p>		++i;</p>
+<p>	}</p>
 
-/* 600 is used because 6byteX100chars */
-#define MAX_UTF8_CHR 1200
+<p>	return 1;</p>
+<p>}</p>
 
+<p>void func_find_utf8 (char *ptr_to_str) {</p>
+<p>int  found_non_ascii;</p>
+<p>char *pbyte;</p>
 
+<p>	pbyte = ptr_to_str;</p>
 
-void func_find_utf8 (char *ptr_to_str); 
-void print_non_ascii (int bytes, char *pbyte);
-
-char strbuf[MAX_UTF8_STR][MAX_UTF8_CHR];
-
-int main (int ac, char * av[]) {
-int i=0; 
-char no_newln_str[MAX_UTF8_CHR];
-
-
-	i = 0;
-	printf ("\n\nYou can enter utf-8 string or Q/q to QUIT\n\n");
-	while (i < MAX_UTF8_STR) {
-		fgets (strbuf[i], MAX_UTF8_CHR, stdin);
-		if (!strlen(strbuf[i])) break;
-		if ((strbuf[i][0] == 'Q') || (strbuf[i][0] == 'q')) break;
-		strcpy (no_newln_str, strbuf[i]);
-		no_newln_str[strlen(no_newln_str)-1] = 0;
-		func_find_utf8 (no_newln_str);
-		++i;
-	}
-
-	return 1;
-}
-
-void func_find_utf8 (char *ptr_to_str) {
-int  found_non_ascii;
-char *pbyte;
-
-	pbyte = ptr_to_str;
-
-	found_non_ascii = 0;
-	while (*pbyte) {
-		if ((*pbyte & B1_BYTE) == B0_BYTE) {
-			pbyte++;
-			continue;
-		}
-		else {
-			found_non_ascii = 1;
-			if ((*pbyte & B7_BYTE) == B6_BYTE) {
-				print_non_ascii (6, pbyte); 
-				pbyte+=6; 	
-				continue;
-			}
-			if ((*pbyte & B6_BYTE) == B5_BYTE) {
-				print_non_ascii (5, pbyte); 
-				pbyte+=5; 	
-				continue;
-			}
-			if ((*pbyte & B5_BYTE) == B4_BYTE) {
-				print_non_ascii (4, pbyte); 
-				pbyte+=4; 	
-				continue;
-			}
-			if ((*pbyte & B4_BYTE) == B3_BYTE) {
-				print_non_ascii (3, pbyte); 
-				pbyte+=3; 	
-				continue;
-			}
-			if ((*pbyte & B3_BYTE) == B2_BYTE) {
-				print_non_ascii (2, pbyte); 
-				pbyte+=2; 	
-				continue;
-			}
-		}
-	}
-		if (found_non_ascii) printf ("   Only Non Ascci printed\n");
-}
-
-void print_non_ascii (int bytes, char *pbyte) {
-char store[6];
-int i;
+<p>	found_non_ascii = 0;</p>
+<p>	while (*pbyte) {</p>
+<p>		if ((*pbyte & B1_BYTE) == B0_BYTE) {</p>
+<p>			pbyte++;</p>
+<p>			continue;</p>
+<p>		}</p>
+<p>		else {</p>
+<p>			found_non_ascii = 1;</p>
+<p>			if ((*pbyte & B7_BYTE) == B6_BYTE) {</p>
+<p>				print_non_ascii (6, pbyte); </p>
+<p>				pbyte+=6; 	</p>
+<p>				continue;</p>
+<p>			}</p>
+<p>			if ((*pbyte & B6_BYTE) == B5_BYTE) {</p>
+<p>				print_non_ascii (5, pbyte); </p>
+<p>				pbyte+=5; 	</p>
+<p>				continue;</p>
+<p>			}</p>
+<p>			if ((*pbyte & B5_BYTE) == B4_BYTE) {</p>
+<p>				print_non_ascii (4, pbyte); </p>
+<p>				pbyte+=4; 	</p>
+<p>				continue;</p>
+<p>			}</p>
+<p>			if ((*pbyte & B4_BYTE) == B3_BYTE) {</p>
+<p>				print_non_ascii (3, pbyte); </p>
+<p>				pbyte+=3; 	</p>
+<p>				continue;</p>
+<p>			}</p>
+<p>			if ((*pbyte & B3_BYTE) == B2_BYTE) {</p>
+<p>				print_non_ascii (2, pbyte); </p>
+<p>				pbyte+=2; 	</p>
+<p>				continue;</p>
+<p>			}</p>
+<p>		}</p>
+<p>	}</p>
+<p>		if (found_non_ascii) printf ("   Only Non Ascci printed\n");</p>
+<p>}</p>
+<p></p>
+<p>void print_non_ascii (int bytes, char *pbyte) {</p>
+<p>char store[6];</p>
+<p>int i;</p>
 	
-	memset (store, 0, 6);
-	memcpy (store, pbyte, bytes);
-	i = 0;
-	while (i<bytes) printf ("%c", store[i++]);
-	printf ("%c", ' ');
-	fflush (stdout);
-}
-</p>
+<p>	memset (store, 0, 6);</p>
+<p>	memcpy (store, pbyte, bytes);</p>
+<p>	i = 0;</p>
+<p>	while (i<bytes) printf ("%c", store[i++]);</p>
+<p>	printf ("%c", ' ');</p>
+<p>	fflush (stdout);</p>
+<p>}</p>
+<p></p>
